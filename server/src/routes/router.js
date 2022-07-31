@@ -7,11 +7,11 @@
 
 import express from 'express'
 import createError from 'http-errors'
-import { Controller } from '../controllers/controller.js'
+import { router as iotRouter } from './iot-router.js'
+
 
 export const router = express.Router()
-export const controller = new Controller()
 
-router.use('/', (req, res, next) => controller.test(req, res, next))
+router.use('/', iotRouter)
 
 router.use('*', (req, res, next) => next(createError(404)))

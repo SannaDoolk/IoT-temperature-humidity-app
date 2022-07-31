@@ -15,6 +15,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
+    "@influxdata/influxdb-client": "^1.28.0",
     "cors": "^2.8.5",
     "express": "^4.17.2",
     "express-session": "^1.17.3",
