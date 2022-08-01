@@ -11,4 +11,4 @@ import { Controller } from '../controllers/controller.js'
 export const controller = new Controller()
 export const router = express.Router()
 
-router.get('/iot', (req, res, next) => controller.test(req, res, next))
+router.get('/iot', (req, res, next) => controller.getLatestSensorValues(req, res, next))
