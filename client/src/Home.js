@@ -17,7 +17,7 @@ const [temperature, setTemperature] = useState(null);
 const [humidity, setHumidity] = useState(null);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/iot')
+    axios.get('http://localhost:8080/')
     .then(function (data) {
       setTemperature(data.data.temperature.value)
       setHumidity(data.data.humidity.value)

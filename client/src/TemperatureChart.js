@@ -17,7 +17,7 @@ function TemperatureChart() {
 
   // Get values for temperatures everytime page loads and save them in arrays to show in chart
   useEffect(() => {
-    axios.get('http://localhost:8080/iot/temperature-chart')
+    axios.get('http://localhost:8080/temperature-values')
     .then(function (data) {
       const temps = []
       const timings = []

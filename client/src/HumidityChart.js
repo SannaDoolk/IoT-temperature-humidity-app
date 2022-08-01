@@ -18,7 +18,7 @@ function HumidityChart() {
 
   // Get values for humidity everytime page loads and save them in arrays to show in chart
   useEffect(() => {
-    axios.get('http://localhost:8080/iot/humidity-chart')
+    axios.get('http://localhost:8080/humidity-values')
     .then(function (data) {
       const humidityResults = []
       const timings = []
