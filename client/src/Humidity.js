@@ -1,6 +1,14 @@
 import './App.css';
 import { BsDroplet } from 'react-icons/bs';
 
+/**
+ * The component that shows the humidity.
+ *
+ * @component
+ * return (
+ *   <Humidity />
+ * )
+ */
 function Humidity({humidity}) {
 
   return (

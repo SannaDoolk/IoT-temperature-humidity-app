@@ -6,6 +6,14 @@ import Home from './Home';
 import TemperatureChart from './TemperatureChart';
 import HumidityChart from './HumidityChart';
 
+/**
+ * The app component.
+ *
+ * @component
+ * return (
+ *   <App />
+ * )
+ */
 function App() {
 
   return (

@@ -1,11 +1,17 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import axios from 'axios';
 import Temperature from './Temperature';
 import Humidity from './Humidity';
-import TemperatureChart from './TemperatureChart';
 
+/**
+ * The home component.
+ *
+ * @component
+ * return (
+ *   <Home />
+ * )
+ */
 function Home() {
 const [temperature, setTemperature] = useState(null);
 const [humidity, setHumidity] = useState(null);

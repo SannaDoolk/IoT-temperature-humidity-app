@@ -3,10 +3,20 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Chart from 'react-apexcharts'
 
+
+/**
+ * The component that shows the chart for humidity values.
+ *
+ * @component
+ * return (
+ *   <HumidityChart />
+ * )
+ */
 function HumidityChart() {
   const [humidityValues, setHumidityValues] = useState([])
   const [timeAndDates, setTimeAndDates] = useState([]);
 
+  // Get values for humidity everytime page loads and save them in arrays to show in chart
   useEffect(() => {
     axios.get('http://localhost:8080/iot/humidity-chart')
     .then(function (data) {

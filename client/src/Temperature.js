@@ -1,6 +1,15 @@
 import './App.css';
 import { FaTemperatureHigh } from 'react-icons/fa';
 
+
+/**
+ * The component that shows the temperature.
+ *
+ * @component
+ * return (
+ *   <Temperature />
+ * )
+ */
 function Temperature({temperature}) {
   console.log(temperature)
   return (
