@@ -80,7 +80,7 @@ export class Controller {
   }
 
   /**
-   * .
+   * Gets values for temperature.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
@@ -119,7 +119,7 @@ export class Controller {
   } 
   
   /**
-   * .
+   * Gets values for humidity.
    *
    * @param {object} req - Express request object.
    * @param {object} res - Express response object.
