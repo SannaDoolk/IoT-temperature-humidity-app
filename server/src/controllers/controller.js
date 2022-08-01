@@ -89,7 +89,7 @@ export class Controller {
   async getTemperatureValues (req, res, next) {
     try {
       const fluxQuery = `from(bucket: "Esp32-1dv027")
-      |> range(start: -1d, stop: -12h)
+      |> range(start: -1d, stop: now())
       |> filter(fn: (r) => r["_measurement"] == "measurements")
       |> filter(fn: (r) => r["SSID"] == "Granstigen")
       |> filter(fn: (r) => r["_field"] == "Temperature")

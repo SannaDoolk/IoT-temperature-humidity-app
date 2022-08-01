@@ -1,8 +1,10 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
+import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
 import axios from 'axios';
 import Temperature from './Temperature';
 import Humidity from './Humidity';
+import TemperatureChart from './TemperatureChart';
 
 function Home() {
 const [temperature, setTemperature] = useState(null);
@@ -22,9 +24,11 @@ const [humidity, setHumidity] = useState(null);
   
   return (
     <div className="Home">
+
       <h1>Termometer</h1>
       <Temperature temperature={temperature}/>
       <Humidity humidity={humidity} />
+
     </div>
   );
 }
