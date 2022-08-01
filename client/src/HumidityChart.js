@@ -3,22 +3,22 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Chart from 'react-apexcharts'
 
-function TemperatureChart() {
-  const [temperatures, setTemperatures] = useState([])
+function HumidityChart() {
+  const [humidityValues, setHumidityValues] = useState([])
   const [timeAndDates, setTimeAndDates] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/iot/temperature-chart')
+    axios.get('http://localhost:8080/iot/humidity-chart')
     .then(function (data) {
-      const temps = []
+      const humidityResults = []
       const timings = []
       data.data.forEach(obj => {
-        temps.push(obj.value)
+        humidityResults.push(obj.value)
         timings.push(obj.time)
       })
-      setTemperatures(temps)
+      setHumidityValues(humidityResults)
       setTimeAndDates(timings)
-      console.log(temperatures)
+      console.log(humidityResults)
       console.log(timeAndDates)
     })
     .catch(function (error) {
@@ -26,7 +26,7 @@ function TemperatureChart() {
     })
   }, []);
 
-  const temperatureChart = {
+  const humidityChart = {
     options: {
       chart: {
         id: "basic-bar"
@@ -38,18 +38,18 @@ function TemperatureChart() {
     series: [
       {
         name: "Temps",
-        data: temperatures
+        data: humidityValues
       }
     ]
   }
 
   return (
-    <div className="TemperatureChart">
-      <h2>Temp chart</h2>
+    <div className="HumidityChart">
+      <h2>Humidity chart</h2>
       <div className="chart-box">
       <Chart
-        options={temperatureChart.options}
-        series={temperatureChart.series}
+        options={humidityChart.options}
+        series={humidityChart.series}
         type="line"
         width="600"
         height="400"
@@ -59,4 +59,4 @@ function TemperatureChart() {
   );
 }
 
-export default TemperatureChart;
+export default HumidityChart;

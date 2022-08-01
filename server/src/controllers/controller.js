@@ -116,6 +116,45 @@ export class Controller {
     } catch (error) {
 
     }
-  }  
+  } 
+  
+  /**
+   * .
+   *
+   * @param {object} req - Express request object.
+   * @param {object} res - Express response object.
+   * @param {Function} next - Express next middleware function.
+   */
+  async getHumidityValues (req, res, next) {
+    try {
+      const fluxQuery = `from(bucket: "Esp32-1dv027")
+      |> range(start: -1d, stop: now())
+      |> filter(fn: (r) => r["_measurement"] == "measurements")
+      |> filter(fn: (r) => r["SSID"] == "Granstigen")
+      |> filter(fn: (r) => r["_field"] == "Humidity")
+      |> filter(fn: (r) => r["device"] == "ESP32")`
+
+      const queryApi = this.authenicateToInfluxDb()
+      const humidityValues = []
+      queryApi.queryRows(fluxQuery, {
+      next(row, tableMeta) {
+        const o = tableMeta.toObject(row)
+        const humidityObj = {
+          time: o._time.slice(0, 19),
+          value: o._value
+        }
+        humidityValues.push(humidityObj)
+      },
+      error(error) {
+        console.error(error)
+      },
+      complete() {
+        res.status(200).json(humidityValues)
+      },
+    })
+    } catch (error) {
+
+    }
+  }
 
 }
