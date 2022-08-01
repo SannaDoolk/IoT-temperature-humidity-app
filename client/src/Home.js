@@ -20,7 +20,7 @@ const [humidity, setHumidity] = useState(null);
     .catch(function (error) {
       console.log(error.response.status)
     })
-  })
+  }, []);
   
   return (
     <div className="Home">
