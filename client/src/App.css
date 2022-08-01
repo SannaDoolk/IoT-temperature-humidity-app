@@ -10,14 +10,19 @@
 
 }
 
-.Temperature {
-  height: 200px;
-  width: 200px;
+.Temperature,
+.Humidity {
+  margin-bottom: 20px;
+  height: 230px;
+  width: 230px;
+  padding: 10px;
   background-color: rgb(231, 235, 235);
+  justify-content: center;
+  text-align: center;
 }
 
-.Humidity {
-  height: 200px;
-  width: 200px;
-  background-color: rgb(231, 235, 235);
+.temperature-value,
+.humidity-value {
+  font-size: 50px;
+  margin: 0px;
 }

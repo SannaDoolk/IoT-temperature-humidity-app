@@ -12,3 +12,4 @@ export const controller = new Controller()
 export const router = express.Router()
 
 router.get('/iot', (req, res, next) => controller.getLatestSensorValues(req, res, next))
+router.get('/iot/temperature-chart', (req, res, next) => controller.getTemperatureValues(req, res, next))
