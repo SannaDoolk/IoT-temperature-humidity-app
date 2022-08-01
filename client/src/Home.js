@@ -25,7 +25,6 @@ const [humidity, setHumidity] = useState(null);
   return (
     <div className="Home">
 
-      <h1>Termometer</h1>
       <Temperature temperature={temperature}/>
       <Humidity humidity={humidity} />
 

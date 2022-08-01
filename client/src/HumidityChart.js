@@ -45,7 +45,7 @@ function HumidityChart() {
 
   return (
     <div className="HumidityChart">
-      <h2>Humidity chart</h2>
+      <h2>Humidity beskriv vad</h2>
       <div className="chart-box">
       <Chart
         options={humidityChart.options}

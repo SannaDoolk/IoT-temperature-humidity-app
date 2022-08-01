@@ -5,6 +5,7 @@ function Humidity({humidity}) {
 
   return (
     <div className="Humidity">
+      <h2>current</h2>
       <h2>humidity</h2>
       <p>-------------</p>
       <h1><BsDroplet /></h1>

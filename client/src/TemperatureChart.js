@@ -45,7 +45,7 @@ function TemperatureChart() {
 
   return (
     <div className="TemperatureChart">
-      <h2>Temp chart</h2>
+      <h2>Temp beskriv vad </h2>
       <div className="chart-box">
       <Chart
         options={temperatureChart.options}
