@@ -19,6 +19,8 @@ Personally I think this project will ge me more insights in how IoT-projects act
 * ESP32 WROOM 32D Microcontroller (Amazon 2pcs 159kr) 
 
 In this project I have chosen to work with the ESP32 development board since this was recommended in the course plus it seemed suitable for this project after research online. ESP32 has built in wifi and bluetooth and can be connected to for example sensors to be able to do something with the sensor data with help from code uploaded to the microcontroller. 
+
+![esp32](pictures/esp32.png)
  
 * DHT11 sensor module (Electrokit) (Sensor kit 25 modules, 239 kr)
 
