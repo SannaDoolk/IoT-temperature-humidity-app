@@ -26,11 +26,13 @@ In this project I have chosen to work with the ESP32 development board since thi
 
 I bought a kit with different sensor modules and chose to work with the DHT11 sensor. The sensor measures the temperature in the air where it’s located as well as the humidity and returns the values. It has a built in 1k resistor. 
 
+![sensor](pictures/sensor.png)
+
 * Wires (Electrokit 23kr) 
 
 The wires are used to connect the sensor with the microcontroller. In this project I needed three wires to connect the sensor. The type of wire I used was female - female since I did not use a breadboard (because it did no work for me). If a breadboard is used to connect the microcontroller with the sensor, three male - female wires would be needed instead. 
 
-BILDER
+![sladd](pictures/sladd.png)
 
 ### Computer setup
 
@@ -70,7 +72,7 @@ The sensor is connected to the ESP32 microcontroller like so:
 
 Since the sensor module has a built in resistor no extra restore is needed in this case. However if the DHT11 sensor is not of the type module, a resistor might be needed.
 
-BILD
+![koppling](pictures/koppling.png)
 
 ### Platform
 
