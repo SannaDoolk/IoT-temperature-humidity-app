@@ -39,7 +39,7 @@ export class Controller {
   async getLatestSensorValues (req, res, next) {
     try {
     const fluxQuery = `from(bucket: "Esp32-1dv027")
-    |> range(start: -1d, stop: -12h)
+    |> range(start: -1d, stop: now())
     |> filter(fn: (r) => r["_measurement"] == "measurements")
     |> filter(fn: (r) => r["SSID"] == "Granstigen")
     |> filter(fn: (r) => r["_field"] == "Temperature" or r["_field"] == "Humidity")
@@ -89,7 +89,7 @@ export class Controller {
   async getTemperatureValues (req, res, next) {
     try {
       const fluxQuery = `from(bucket: "Esp32-1dv027")
-      |> range(start: -1d, stop: now())
+      |> range(start: -5h, stop: now())
       |> filter(fn: (r) => r["_measurement"] == "measurements")
       |> filter(fn: (r) => r["SSID"] == "Granstigen")
       |> filter(fn: (r) => r["_field"] == "Temperature")
@@ -128,7 +128,7 @@ export class Controller {
   async getHumidityValues (req, res, next) {
     try {
       const fluxQuery = `from(bucket: "Esp32-1dv027")
-      |> range(start: -1d, stop: now())
+      |> range(start: -5h, stop: now())
       |> filter(fn: (r) => r["_measurement"] == "measurements")
       |> filter(fn: (r) => r["SSID"] == "Granstigen")
       |> filter(fn: (r) => r["_field"] == "Humidity")
