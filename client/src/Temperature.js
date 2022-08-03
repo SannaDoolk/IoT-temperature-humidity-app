@@ -11,7 +11,7 @@ import { FaTemperatureHigh } from 'react-icons/fa';
  * )
  */
 function Temperature({temperature}) {
-  console.log(temperature)
+  
   return (
     <div className="Temperature">
       <h2>current</h2>

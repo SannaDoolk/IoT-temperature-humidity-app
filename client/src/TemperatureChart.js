@@ -27,8 +27,6 @@ function TemperatureChart() {
       })
       setTemperatures(temps)
       setTimeAndDates(timings)
-      console.log(temperatures)
-      console.log(timeAndDates)
     })
     .catch(function (error) {
       console.log(error.response.status)

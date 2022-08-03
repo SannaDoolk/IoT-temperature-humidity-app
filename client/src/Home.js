@@ -21,7 +21,6 @@ const [humidity, setHumidity] = useState(null);
     .then(function (data) {
       setTemperature(data.data.temperature.value)
       setHumidity(data.data.humidity.value)
-      console.log(data.data.temperature.time)
     })
     .catch(function (error) {
       console.log(error.response.status)

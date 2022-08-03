@@ -9,7 +9,6 @@ import express from 'express'
 import createError from 'http-errors'
 import { router as iotRouter } from './iot-router.js'
 
-
 export const router = express.Router()
 
 router.use('/', iotRouter)

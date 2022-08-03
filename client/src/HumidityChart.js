@@ -28,9 +28,6 @@ function HumidityChart() {
       })
       setHumidityValues(humidityResults)
       setTimeAndDates(timings)
-      console.log(humidityResults)
-      console.log('time:')
-      console.log(timings)
     })
     .catch(function (error) {
       console.log(error.response.status)

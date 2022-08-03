@@ -15,7 +15,6 @@ import { router } from './routes/router.js'
  * The main function of the application.
  */
 const main = async () => {
-
   const app = express()
 
   app.use(helmet())

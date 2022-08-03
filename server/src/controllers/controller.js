@@ -6,9 +6,7 @@
  */
 
 'use strict'
-import createHttpError from 'http-errors'
-import { InfluxDB, Point } from '@influxdata/influxdb-client' 
-//import { . } from '../../models/'
+import { InfluxDB } from '@influxdata/influxdb-client'
 
 /**
  * Encapsulates a controller.
@@ -17,14 +15,14 @@ export class Controller {
   /**
    * Authenticates against InfluxDB.
    *
-   * @returns {Object} The queryApi object.
+   * @returns {object} The queryApi object.
    */
   authenicateToInfluxDb () {
     const url = process.env.INFLUX_URL || ''
     const token = process.env.INFLUX_TOKEN
     const org = process.env.INFLUX_ORG || ''
 
-    const queryApi = new InfluxDB({url, token}).getQueryApi(org)
+    const queryApi = new InfluxDB({ url, token }).getQueryApi(org)
 
     return queryApi
   }
@@ -38,44 +36,44 @@ export class Controller {
    */
   async getLatestSensorValues (req, res, next) {
     try {
-    const fluxQuery = `from(bucket: "Esp32-1dv027_2")
-    |> range(start: -1d, stop: now())
-    |> filter(fn: (r) => r["_measurement"] == "measurements")
-    |> filter(fn: (r) => r["SSID"] == "Granstigen")
-    |> filter(fn: (r) => r["_field"] == "Temperature" or r["_field"] == "Humidity")
-    |> filter(fn: (r) => r["device"] == "ESP32")
-    |> last()`
+      const fluxQuery = `from(bucket: "Esp32-1dv027_2")
+      |> range(start: -1d, stop: now())
+      |> filter(fn: (r) => r["_measurement"] == "measurements")
+      |> filter(fn: (r) => r["SSID"] == "Granstigen")
+      |> filter(fn: (r) => r["_field"] == "Temperature" or r["_field"] == "Humidity")
+      |> filter(fn: (r) => r["device"] == "ESP32")
+      |> last()`
 
-    let temperatureValue
-    let humidityValue
+      let temperatureValue
+      let humidityValue
 
-    const queryApi = this.authenicateToInfluxDb()
-    queryApi.queryRows(fluxQuery, {
+      const queryApi = this.authenicateToInfluxDb()
+      queryApi.queryRows(fluxQuery, {
 
-      next(row, tableMeta) {
-      const o = tableMeta.toObject(row)
-      if (o._field === 'Temperature') {
-          temperatureValue = {
-            time: o._time.slice(0, 19),
-            value: o._value
+        next (row, tableMeta) {
+          const o = tableMeta.toObject(row)
+          if (o._field === 'Temperature') {
+            temperatureValue = {
+              time: o._time.slice(0, 19),
+              value: o._value
+            }
           }
-        }
-      if (o._field === 'Humidity') {
-          humidityValue = {
-            time: o._time.slice(0, 19),
-            value: o._value
+          if (o._field === 'Humidity') {
+            humidityValue = {
+              time: o._time.slice(0, 19),
+              value: o._value
+            }
           }
+        },
+        error (error) {
+          console.error(error)
+        },
+        complete () {
+          res.status(200).json({ temperature: temperatureValue, humidity: humidityValue })
         }
-      },
-      error(error) {
-        console.error(error)
-      },
-      complete() {
-        res.status(200).json({ temperature: temperatureValue, humidity: humidityValue })
-      },
-    })
+      })
     } catch (error) {
-      console.log(error)
+      next(error)
     }
   }
 
@@ -97,27 +95,28 @@ export class Controller {
 
       const queryApi = this.authenicateToInfluxDb()
       const temperatures = []
-      queryApi.queryRows(fluxQuery, {
-      next(row, tableMeta) {
-        const o = tableMeta.toObject(row)
-        const temperatureObj = {
-          time: o._time.slice(0, 19),
-          value: o._value
-        }
-        temperatures.push(temperatureObj)
-      },
-      error(error) {
-        console.error(error)
-      },
-      complete() {
-        res.status(200).json(temperatures)
-      },
-    })
-    } catch (error) {
 
+      queryApi.queryRows(fluxQuery, {
+        next (row, tableMeta) {
+          const o = tableMeta.toObject(row)
+          const temperatureObj = {
+            time: o._time.slice(0, 19),
+            value: o._value
+          }
+          temperatures.push(temperatureObj)
+        },
+        error (error) {
+          console.error(error)
+        },
+        complete () {
+          res.status(200).json(temperatures)
+        }
+      })
+    } catch (error) {
+      next(error)
     }
-  } 
-  
+  }
+
   /**
    * Gets values for humidity.
    *
@@ -137,24 +136,23 @@ export class Controller {
       const queryApi = this.authenicateToInfluxDb()
       const humidityValues = []
       queryApi.queryRows(fluxQuery, {
-      next(row, tableMeta) {
-        const o = tableMeta.toObject(row)
-        const humidityObj = {
-          time: o._time.slice(0, 19),
-          value: o._value
+        next (row, tableMeta) {
+          const o = tableMeta.toObject(row)
+          const humidityObj = {
+            time: o._time.slice(0, 19),
+            value: o._value
+          }
+          humidityValues.push(humidityObj)
+        },
+        error (error) {
+          console.error(error)
+        },
+        complete () {
+          res.status(200).json(humidityValues)
         }
-        humidityValues.push(humidityObj)
-      },
-      error(error) {
-        console.error(error)
-      },
-      complete() {
-        res.status(200).json(humidityValues)
-      },
-    })
+      })
     } catch (error) {
-
+      next(error)
     }
   }
-
 }
