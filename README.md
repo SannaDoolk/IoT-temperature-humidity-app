@@ -66,7 +66,7 @@ The sensor is connected to the ESP32 microcontroller like so:
 
 * Power line (middle) - 3V3
 
-* Ground (to the left from the front) - GNP 
+* Ground (to the left from the front) - GND 
 
 Since the sensor module has a built in resistor no extra resistor is needed in this case. However if the DHT11 sensor is not of the type module, a resistor might be needed.
 
