@@ -243,7 +243,7 @@ The database I’m using to save the data is InfluxDB and it is saved there for 
 
 *Values are with 10 seconds interval, however all time/date stamps are not showing on the bottom of the chart but can be seen when hovering over the line.
 
-Video applikationen 
+Project video found here https://youtu.be/fioUhnflknE 
 
 The final result of the project is a React application showing the latest measured temperature and humidity value. It also possible to see charts over how the temperature and humidity values have changed over the last hours.
 
