@@ -29,7 +29,8 @@ function HumidityChart() {
       setHumidityValues(humidityResults)
       setTimeAndDates(timings)
       console.log(humidityResults)
-      console.log(timeAndDates)
+      console.log('time:')
+      console.log(timings)
     })
     .catch(function (error) {
       console.log(error.response.status)
@@ -55,7 +56,7 @@ function HumidityChart() {
 
   return (
     <div className="HumidityChart">
-      <h2>Humidity beskriv vad</h2>
+      <h2>Humidity over time</h2>
       <div className="chart-box">
       <Chart
         options={humidityChart.options}

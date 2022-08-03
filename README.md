@@ -49,8 +49,8 @@ I have chosen to work in Arduino IDE.
 ### Connect the ESP32:
 
 * For Mac I had to install drivers via https://www.silabs.com/developers/usb-to-uart-bridge-vcp-drivers 
-* *onnect the ESP32 via USB
-* Go to Tools - Board and chose the name of the ESP32 that us connected
+* Connect the ESP32 via USB
+* Go to Tools - Board and chose the name of the ESP32 that is connected
 * Go to Port and chose the port the ESP32 is connected to 
 
 ### To test if things work:
@@ -70,7 +70,7 @@ The sensor is connected to the ESP32 microcontroller like so:
 
 * Ground (to the left from the front) - GNP 
 
-Since the sensor module has a built in resistor no extra restore is needed in this case. However if the DHT11 sensor is not of the type module, a resistor might be needed.
+Since the sensor module has a built in resistor no extra resistor is needed in this case. However if the DHT11 sensor is not of the type module, a resistor might be needed.
 
 ![koppling](pictures/koppling.png)
 
@@ -79,6 +79,8 @@ Since the sensor module has a built in resistor no extra restore is needed in th
 I have used the time series database InfluxDB as my platform in this project. I have been using a free subscription of InfluxDB cloud. 
 
 ### The code
+
+## Arduino IDE
 
 ```python=
 #include <Wire.h>
@@ -134,25 +136,69 @@ void loop() {
   sensor.addField("Temperature",temperature);
   sensor.addField("Humidity",humidity);
 
-  Serial.print("Writing: ");
+  ...
+
   Serial.println(client.pointToLineProtocol(sensor));
 
-  // Check that there is a wifi signal
-  
-  if (wifiMulti.run() != WL_CONNECTED) {
-    Serial.println("Wifi connection lost");
-  }
+  ....  
 
+// Check for error when writing to InfluxDB
   if (!client.writePoint(sensor)) {
-    Serial.print("InfluxDB write failed: ");
+    Serial.print("Could not write to InfluxDB: ");
     Serial.println(client.getLastErrorMessage());
   }
-  Serial.println("");
-  Serial.println("Delay 10 seconds");
+
+  ...
+
   delay(10000); // Writes the point to the db every 10000 millisecond
-}  
+}
+
+```
+The code used in Arduino IDE was written with help from https://microcontrollerslab.com/esp32-esp8266-dht11-dht22-influxdb/ 
+
+## Server application
+
+To be able to make queries to your account in InfluxDB authentication is needed, once again with the credentials from InfluxDB that were used in the code that were uploaded to the ESP32. This method returns an instance of InfluxDB api that can be queried. 
+
+```
+  authenicateToInfluxDb () {
+    const url = process.env.INFLUX_URL || ''
+    const token = process.env.INFLUX_TOKEN
+    const org = process.env.INFLUX_ORG || ''
+
+    const queryApi = new InfluxDB({url, token}).getQueryApi(org)
+
+    return queryApi
+  }
+```
+Queries to InlfuxDB are made in the Flux lanugage. The bucket where the data is saved is specified, as well as the other fields that are written to the db. The time range of which you want to retrive data is also specified, in this case 1 day back until present. In this query 'last()' is added to get the latest uploaded value of temperature and humidity. Whitout 'last()' all data values would be returned, which I used in my other queries. 
+
+```
+const fluxQuery = `from(bucket: "Esp32-1dv027_2")
+    |> range(start: -1d, stop: now())
+    |> filter(fn: (r) => r["_measurement"] == "measurements")
+    |> filter(fn: (r) => r["SSID"] == "Granstigen")
+    |> filter(fn: (r) => r["_field"] == "Temperature" or r["_field"] == "Humidity")
+    |> filter(fn: (r) => r["device"] == "ESP32")
+    |> last()`
 ```
 
+## Client application 
+
+The Client application performs a GET request to the server application to retrive the values for temperature and humidity.
+
+``` 
+const [temperature, setTemperature] = useState(null);
+const [humidity, setHumidity] = useState(null);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/')
+    .then(function (data) {
+      setTemperature(data.data.temperature.value)
+      setHumidity(data.data.humidity.value)
+
+   ...
+```
 
 ### Data flow / Connectivity
 
@@ -166,9 +212,9 @@ The steps are as follow:
 * Read sensor values
 * Connect to Influxdb 
 * Write sensor values to Influxdb
-* Sensor values are save in Influxdb
+* Sensor values are saved in Influxdb
 * (Repeats every 10 second)
-* The client application sends a GET-request to retrieve the sensor values to the Express server application 
+* The client application sends a GET-request to retrieve the sensor values from the Express server application 
 * The server application perfumes a query using the Flux language to retrieve the wanted sensor values from influxdb 
 * The server application sends back the query response to the client application 
 * The client application shows the retrieved data 
