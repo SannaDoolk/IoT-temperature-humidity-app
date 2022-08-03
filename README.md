@@ -1,12 +1,10 @@
-### Temperature and humidity project
+## Temperature and humidity project
 
 Sanna Doolk, sd222si
 
 This is a project to set up an API that gets data from a sensor connected to an ESP32 microcontroller. The sensor is an DHT11 that measures temperature and humidity. The data from the senor is saved in InfluxDB and InfluxDB is the queried by an express application to get the saved results. The data is then presented in a React application.  
 
-Hur lång tid???
-
-### Objective
+## Objective
 
 I have chosen this project because IoT-projects and hardware is completely new for me, and a temperature/humidity sensor together with an ESP32 seemed like a good way to start learning. 
 
@@ -14,7 +12,7 @@ The purpose of this project is to have a way to measure temperature and humidity
 
 Personally I think this project will ge me more insights in how IoT-projects actually work and will inspire me to make other project that are a bit more complicated and more complex in the future. As for right now I feel like the most important thing for me is to learn more and understand the flow of how these things work, as I have no earlier experience of it. 
 
-### Material
+## Material
 
 * ESP32 WROOM 32D Microcontroller (Amazon 2pcs 159kr) 
 
@@ -34,7 +32,7 @@ The wires are used to connect the sensor with the microcontroller. In this proje
 
 ![sladd](pictures/sladd.png)
 
-### Computer setup
+## Computer setup
 
 I have chosen to work in Arduino IDE.
 
@@ -60,7 +58,7 @@ I have chosen to work in Arduino IDE.
 * Go to Tools and click on Serial Monitor
 * If everything is working, the monitor should start scanning available wifi:s and print them in the serial monitor 
 
-### Putting everything together
+## Putting everything together
 
 The sensor is connected to the ESP32 microcontroller like so:
 
@@ -74,13 +72,13 @@ Since the sensor module has a built in resistor no extra resistor is needed in t
 
 ![koppling](pictures/koppling.png)
 
-### Platform
+## Platform
 
 I have used the time series database InfluxDB as my platform in this project. I have been using a free subscription of InfluxDB cloud. 
 
-### The code
+## The code
 
-## Arduino IDE
+### Arduino IDE
 
 ```python=
 #include <Wire.h>
@@ -156,7 +154,7 @@ void loop() {
 ```
 The code used in Arduino IDE was written with help from https://microcontrollerslab.com/esp32-esp8266-dht11-dht22-influxdb/ 
 
-## Server application
+### Server application
 
 To be able to make queries to your account in InfluxDB authentication is needed, once again with the credentials from InfluxDB that were used in the code that were uploaded to the ESP32. This method returns an instance of InfluxDB api that can be queried. 
 
@@ -183,7 +181,7 @@ const fluxQuery = `from(bucket: "Esp32-1dv027_2")
     |> last()`
 ```
 
-## Client application 
+### Client application 
 
 The Client application performs a GET request to the server application to retrive the values for temperature and humidity.
 
@@ -200,7 +198,7 @@ const [humidity, setHumidity] = useState(null);
    ...
 ```
 
-### Data flow / Connectivity
+## Data flow / Connectivity
 
 The data is being sent using wifi and is sent every 10 second.
 
@@ -219,15 +217,31 @@ The steps are as follow:
 * The server application sends back the query response to the client application 
 * The client application shows the retrieved data 
 
-### Presenting the data
+## Presenting the data
 
-Bilder
+The database I’m using to save the data is InfluxDB and it is saved there for 14 days. The data should be written to the database every 10 second (however I have noticed that sometimes the time intervals differs a bit, perhaps due to temporary wifi loss).
 
-The database I’m using to save the data is InfluxDB and it is saved there for 14 days. The data should be written to the database every 10 second, however I have noticed that sometimes the time intervals differs a bit, perhaps due to temporary wifi loss. 
+![influx_1](pictures/influx_1.png)
+*The fields used*
 
-### Finalizing the design
+![influx_2](pictures/influx_2.png)
+*Rows*
 
-Bilder applikationen 
+![influx_3](pictures/influx_3.png)
+*Rows*
+
+## Finalizing the design
+
+![home](pictures/home.png) 
+*The starting page of the client application which shows the current temperature/humidity.*
+
+![temp-chart](pictures/temp-chart.png)
+*Shows temperature over time* *
+
+![hum-chart](pictures/hum-chart.png)
+*Shows the humidity over time* *
+
+*Values are with 10 seconds interval, however all time/date stamps are not showing on the bottom of the chart but can be seen when hovering over the line.
 
 Video applikationen 
 
